@@ -31,7 +31,11 @@ const authRoute = require("./routes/auth");
 
 app.use("/api/v1/" , authRoute);
 
+// course route
 
+const courseRoute = require("./routes/course")
+
+app.use("/api/v1/" , courseRoute)
 
 // error handling
 
@@ -46,7 +50,6 @@ app.use((err , req , res , next) => {
         statusCode,
         message,
     })
-
     
 })
 

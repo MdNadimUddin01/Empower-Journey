@@ -11,11 +11,12 @@ const courseProgressSchema = new mongoose.Schema({
     required: true,
   },
 
-  completedSubsection: {
-    type: [mongoose.Schema.ObjectId],
+  completedSubsection: [{
+    type: mongoose.Schema.Types.ObjectId,
     ref:"SubSection",
     required: true,
-  },
+  }],
+  
 });
 
 const CourseProgress = mongoose.model("CourseProgress" , courseProgressSchema);

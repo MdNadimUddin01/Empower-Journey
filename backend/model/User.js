@@ -41,17 +41,15 @@ const userSchema = new mongoose.Schema({
     trim:true,
   },
 
-  courses:{
-    type:mongoose.Schema.ObjectId,
-    Ref:"Course"
-  },
+  courses:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Course"
+  }],
 
-  courseProgress:{
-    type:mongoose.Schema.ObjectId,
-    Ref:"CourseProgress",
-  }
-
-
+  courseProgress:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"CourseProgress",
+  }]
 
 });
 

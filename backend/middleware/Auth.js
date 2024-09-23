@@ -7,8 +7,8 @@ exports.verifyToken = async(req , res , next) => {
 
     try{
 
-        const {token} = req.body;
-
+        const token = req.cookies.token || req.body.token || req.header("Authorisation").replace("Bearer " , "");
+        
         if(!token){
             return next(errorHandle("403" , "Token missing"));
         }
@@ -102,7 +102,7 @@ exports.isAdmin = async(req , res , next) => {
             return next(errorHandle("404" , "Not found"));
         }
 
-        if(user.accountType === "Admin"){
+        if(user.accountType !== "Admin"){
 
             return res.status(401).json({
                 success:false,

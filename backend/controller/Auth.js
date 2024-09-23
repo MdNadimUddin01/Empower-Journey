@@ -170,4 +170,88 @@ exports.sendOtp = async(req , res , next) => {
 }
 
 
+exports.changePassword = async(req , res , next) => {
 
+    try{
+
+      const id = req.id;
+      const {oldPassword , newPassword} = req.body;
+
+      if(!oldPassword || newPassword){
+        return next(errorHandle("400" , "All Fields are required"));
+      }
+
+      const user = await User.findById(id);
+
+      if(!user){
+        return next("404" , "something went wrong please try after some time");
+      }
+
+      
+
+      const matched =  bcrypt.compareSync(oldPassword , user.password);
+
+      if(matched){
+
+        const hashedPassword = bcrypt.hashSync(newPassword , 10);
+        user.password = hashedPassword;
+
+        const updatedUser = await User.findByIdAndUpdate({
+          _id:id,
+          password:hashedPassword,
+        })
+
+        const {password:pass , ...userInfo} = updatedUser._doc;
+
+        return res.status(200).json({
+          success:true,
+          userInfo,
+          message:"Password Update Successfull"
+        })
+      }
+
+      return next(errorHandle("402" , "Invalid Password"))
+
+
+
+    }catch(error){
+      return next(error)
+    }
+
+}
+
+
+// exports.resetPasswordOTP = async(req , res , next) =>{
+
+//   try{
+
+//     const {email , otp} = req.body;
+
+//     const currentOtp = await OTP.findOne({email : email}).sort({createdAt:-1});
+
+//     if(currentOtp != otp){
+
+//       return next(errorHandle("400" , "Invalid Otp"));
+
+//     }
+
+//     next();
+    
+
+//   }catch(error){
+//     return next(error)
+//   }
+
+// }
+
+// exports.resetPassword = async(req , res ,  next) => {
+
+//   try{
+
+//     const {newPassword}
+
+//   }catch(error){
+
+//   }
+
+// }

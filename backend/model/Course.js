@@ -12,20 +12,27 @@ const courseSchema = new mongoose.Schema({
         required:true,
         trim:true,
     },
-    tags:{
-        type:[mongoose.Schema.ObjectId],
-        required:"Tag",
+    tag:{
+        type:mongoose.Schema.Types.ObjectId,
+        required:true,
+        ref:"Tag"
+    },
+    instructor:{
+        type:mongoose.Schema.Types.ObjectId,
+        required:true,
+        ref:"User",
     },
     thumbnail:{
         type:String,
-        required:true,
+        // required:true,
     },
-    courseOutcome:{
+    courseOutcome:[{
         type:String,
         required:true,
-    },
+    }],
     studentEnrolled:{
         type:Number,
+        default:0
     },
     language:{
         type:String,
@@ -34,24 +41,25 @@ const courseSchema = new mongoose.Schema({
     coursePrice:{
         type:Number,
         required:true,
+        min:0
     },
     createdAt:{
         type:Date,
         default:Date.now(),
         required:true,
     },
-    sections:{
-        type:[mongoose.Schema.ObjectId],
-        Ref:"Section"
-    },
-    frequentlyAskedQuestions:{
-        type:[mongoose.Schema.ObjectId],
-        Ref:"FrequentlyAskedQuestion"
-    },
-    ratingAndReviews:{
-        type:[mongoose.Schema.ObjectId],
-        Ref:"RatingAndReview"
-    },
+    sections:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Section"
+    }],
+    frequentlyAskedQuestions:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"FrequentlyAskedQuestion"
+    }],
+    ratingAndReviews:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"RatingAndReview"
+    }],
 
 })
 
