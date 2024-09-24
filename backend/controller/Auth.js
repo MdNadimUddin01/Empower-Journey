@@ -187,8 +187,6 @@ exports.changePassword = async(req , res , next) => {
         return next("404" , "something went wrong please try after some time");
       }
 
-      
-
       const matched =  bcrypt.compareSync(oldPassword , user.password);
 
       if(matched){

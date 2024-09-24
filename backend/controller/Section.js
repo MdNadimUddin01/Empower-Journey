@@ -59,7 +59,7 @@ exports.createSection = async(req , res , next) => {
 }
 
 
-exports.getAllSubsection = async(req, res , next) => {
+exports.getAllSection = async(req, res , next) => {
 
     try{
 
