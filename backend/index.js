@@ -26,19 +26,22 @@ dataBaseConnection();
 
 
 //auth route
-
 const authRoute = require("./routes/auth");
-
 app.use("/api/v1/" , authRoute);
 
 // course route
-
 const courseRoute = require("./routes/course")
-
 app.use("/api/v1/" , courseRoute)
 
-// error handling
+// section Route
+const sectionRoute = require("./routes/section");
+app.use("/api/v1" , sectionRoute)
 
+// subSection Route
+const subSectionRoute = require("./routes/subSection");
+app.use("/api/v1" , subSectionRoute)
+
+// error handling
 app.use((err , req , res , next) => {
 
     const statusCode = err.statusCode || 500;
