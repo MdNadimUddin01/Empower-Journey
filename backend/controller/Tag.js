@@ -35,6 +35,48 @@ exports.createTag = async(req , res , next) => {
     
 }
 
+exports.deleteTag = async(req , res , next) => {
+
+    try{
+
+        const {tagId} = req.body;
+
+        await Tag.findByIdAndDelete(tagId);
+
+        return res.status(200).json({
+            success:true,
+            message:"Tag Deleted successfully"
+        })
+
+    }catch(error){
+
+        return next(error)
+    }
+}
+
+exports.editTag = async(req , res , next) => {
+
+    try{
+
+        const {tagName , tagId} = req.body
+
+        if(!tagName || !tagId){
+            return next(errorHandle("400" , "All Fields are required"))
+        }
+
+        const newTag = await Tag.findByIdAndUpdate({_id:tagId} , {tagName},{new:true})
+
+        return res.status(200).json({
+            success:true,
+            message:"Tag Updated successfully",
+        })
+
+    }catch(error){
+
+        return next(error)
+        
+    }
+}
 exports.getAllTags = async(req , res , next) => {
 
     try{
