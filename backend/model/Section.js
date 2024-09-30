@@ -15,10 +15,10 @@ const sectionSchema = new mongoose.Schema({
         }
 
     ],
-    courseId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Course"
-    },
+    // courseId:{
+    //     type:mongoose.Schema.Types.ObjectId,
+    //     ref:"Course"
+    // },
     createdAt:{
         type:Date,
         default:Date.now()
