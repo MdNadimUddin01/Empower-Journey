@@ -30,10 +30,10 @@ const courseSchema = new mongoose.Schema({
         type:String,
         required:true,
     }],
-    studentEnrolled:{
-        type:Number,
-        default:0
-    },
+    studentEnrolled:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    }],
     language:{
         type:String,
         required:true,

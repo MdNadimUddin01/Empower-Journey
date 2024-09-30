@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const fqaSchema = new mongoose.Schema({
+const faqSchema = new mongoose.Schema({
 
     courseId:{
         type:mongoose.Schema.Types.ObjectId,
@@ -18,6 +18,6 @@ const fqaSchema = new mongoose.Schema({
 
 })
 
-const FrequentlyAskedQuestion = mongoose.model("FrequentlyAskedQuestion" , fqaSchema)
+const FrequentlyAskedQuestion = mongoose.model("FrequentlyAskedQuestion" , faqSchema)
 
 module.exports = {FrequentlyAskedQuestion}
