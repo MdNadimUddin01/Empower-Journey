@@ -8,8 +8,7 @@ const route = express.Router();
 route.post("/signup" , signUp);
 route.post("/sendOtp" , sendOtp);
 route.post("/login" , login);
-// route.post("/testing" , verifyToken , isAdmin , test);
-route.put("/changePassword" , verifyToken , changePassword)
+route.put("/changePassword" , verifyToken , changePassword);
 
 module.exports = route;
 

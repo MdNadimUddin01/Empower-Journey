@@ -19,7 +19,7 @@ exports.createRatingAndReview = async(req , res , next) => {
         const alreadyReviewed = await RatingAndReview.findOne({userId:id , courseId})
 
         if(alreadyReviewed){
-            return next(errorHandle(409 , "You can only once rating and review the course"));
+            return next(errorHandle(409 , "You can only once rate and review the course"));
         }
 
 

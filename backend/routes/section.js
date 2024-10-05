@@ -1,9 +1,10 @@
-const express = require("express")
-const { createSection, getAllSection } = require("../controller/Section")
-const route = express.Router()
+const express = require("express");
+const { createSection, updateSection, deleteSection } = require("../controller/Section");
+const { verifyToken, isInstructor } = require("../middleware/Auth");
+const route = express.Router();
 
-route.post("/createSection/:sectionId" , createSection)
-router.post("/getAllSection/:courseId" , getAllSection)
+route.post("/createSection", verifyToken, isInstructor, createSection);
+route.put("/updateSection", verifyToken, isInstructor, updateSection);
+route.delete("/deleteSection", verifyToken, isInstructor, deleteSection);
 
-
-module.exports = route
+module.exports = route;

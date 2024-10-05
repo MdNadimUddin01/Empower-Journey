@@ -29,6 +29,7 @@ exports.getUserDetails = async(req , res , next) => {
             message:"All details od User are achieved",
             userDetails
         })
+        
     }catch(error){
         return next(error);
     }

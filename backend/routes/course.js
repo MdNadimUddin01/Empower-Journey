@@ -1,13 +1,14 @@
 const express = require("express");
-const { createCourse, getAllCourse } = require("../controller/Course");
-const { verify } = require("crypto");
-const { isInstructor, isAdmin, verifyToken } = require("../middleware/Auth");
-const { createTag, getAllTags } = require("../controller/Tag");
-const router = express.Router();
+const {
+  createCourse,
+  getAllCourse,
+  getCourseDetails,
+} = require("../controller/Course");
+const { isInstructor, verifyToken } = require("../middleware/Auth");
+const route = express.Router();
 
-router.post("/createCourse" , verifyToken, isInstructor ,createCourse)
-router.get("/getAllCourses", verifyToken , getAllCourse);
-router.post("/createTag" , verifyToken , isAdmin , createTag)
-router.get("/allTags" , getAllTags)
+route.post("/createCourse", verifyToken, isInstructor, createCourse);
+route.get("/getAllCourses", verifyToken, getAllCourse);
+route.get("getCourseDetails", getCourseDetails);
 
-module.exports = router
+module.exports = route;
