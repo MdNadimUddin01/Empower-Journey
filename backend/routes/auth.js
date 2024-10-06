@@ -1,7 +1,6 @@
 const express = require("express");
 const { signUp, sendOtp, login, changePassword } = require("../controller/Auth");
 const { verifyToken, isStudent, isAdmin } = require("../middleware/Auth");
-const { test } = require("../controller/testing");
 
 const route = express.Router();
 

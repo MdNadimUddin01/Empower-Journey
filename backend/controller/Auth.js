@@ -177,7 +177,7 @@ exports.changePassword = async(req , res , next) => {
       const id = req.id;
       const {oldPassword , newPassword} = req.body;
 
-      if(!oldPassword || newPassword){
+      if(!oldPassword || !newPassword){
         return next(errorHandle("400" , "All Fields are required"));
       }
 

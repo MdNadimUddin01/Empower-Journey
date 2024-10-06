@@ -2,6 +2,7 @@ const { Course } = require("../model/Course");
 const { Section } = require("../model/Section");
 const { Tag } = require("../model/Tag");
 const { User } = require("../model/User");
+const { uploadOnCloudianry } = require("../utils/cloudinary");
 const { errorHandle } = require("../utils/errorHandler");
 
 exports.createCourse = async (req, res, next) => {
@@ -15,11 +16,14 @@ exports.createCourse = async (req, res, next) => {
       coursePrice,
     } = req.body;
 
-    // const thumbnailUrl = req.file.thumbnailImage;
+    const thumbnailFile = req.files?.thumbnail?.[0].path;
+
+
+    const thumbnail = await uploadOnCloudianry(thumbnailFile);
 
     const id = req.id;
 
-    // console.table([courseName , description , tag , courseOutcome , language , coursePrice])
+    console.table([courseName , description , tagName , courseOutcome , language , coursePrice])
 
     if (
       !courseName ||
@@ -31,10 +35,7 @@ exports.createCourse = async (req, res, next) => {
     ) {
       return next(errorHandle("400", "All Field are required"));
     }
-
-    //upload thumbnail
-    // const thumbnail = thumbnailUrl;
-
+    
     const existingUser = await User.findById({ _id: id });
     const tagInfo = await Tag.findOne({ tagName: tagName });
 
@@ -54,11 +55,12 @@ exports.createCourse = async (req, res, next) => {
       courseOutcome,
       language,
       instructor: existingUser._id,
+      thumbnail:thumbnail.url
     });
 
+    
     await newCourse.save();
-
-    // tagInfo.courses.push(newCourse._id);
+    console.log(newCourse)
 
     const updatedTag = await Tag.findByIdAndUpdate(
       { _id: tagInfo._id },
@@ -95,6 +97,7 @@ exports.createCourse = async (req, res, next) => {
 };
 
 exports.getAllCourse = async (req, res, next) => {
+
   try {
     const allCourses = await Course.find(
       {},
@@ -105,6 +108,7 @@ exports.getAllCourse = async (req, res, next) => {
         courseOutcome: true,
         language: true,
         coursePrice: true,
+        thumbnail:true
       }
     )
       .populate("tag")
@@ -162,19 +166,3 @@ exports.getCourseDetails = async (req, res, next) => {
   
 };
 
-// exports.getAllUserCourse = async (req, res, next) => {
-//   try {
-//     const id = req.id;
-//     const { courses } = await User.find({ _id: id });
-
-//     return res.status(200).json({
-//       success: true,
-//       message: "All Courses Fetched",
-//       courses,
-//     });
-
-//   }catch (error) {
-//     return next(error);
-//   }
-
-// };

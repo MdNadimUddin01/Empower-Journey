@@ -57,12 +57,10 @@ app.use("/api/v1" , tagRoute)
 const userRoute = require("./routes/user")
 app.use("/api/v1" , userRoute)
 
-
-
 // error handling
 app.use((err , req , res , next) => {
 
-    const statusCode = err.statusCode || 500;
+    const statusCode = parseInt(err.statusCode) || 500;
 
     const message = err.message || "Internal Server Error"
 

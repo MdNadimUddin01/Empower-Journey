@@ -23,7 +23,8 @@ exports.createTag = async(req , res , next) => {
 
         return res.status(200).json({
             success:true,
-            message:`Tag creation successfull`
+            message:`Tag creation successfull`,
+            newTag
         })
 
 
@@ -58,17 +59,28 @@ exports.editTag = async(req , res , next) => {
 
     try{
 
-        const {tagName , tagId} = req.body
+        const {tagName , tagId , description} = req.body
 
-        if(!tagName || !tagId){
+        const updatedFiled = {}
+
+        if(tagName){
+            updatedFiled.tagName = tagName
+        }
+
+        if(description){
+            updatedFiled.description = description
+        }
+
+        if((!tagName && !description)|| !tagId){
             return next(errorHandle("400" , "All Fields are required"))
         }
 
-        const newTag = await Tag.findByIdAndUpdate({_id:tagId} , {tagName},{new:true})
+        const newTag = await Tag.findByIdAndUpdate({_id:tagId} , updatedFiled,{new:true})
 
         return res.status(200).json({
             success:true,
             message:"Tag Updated successfully",
+            newTag
         })
 
     }catch(error){
@@ -82,6 +94,7 @@ exports.getAllTags = async(req , res , next) => {
     try{
 
         const allTags = await Tag.find({},{tagName:true , description:true});
+        // console.log(allTags)
 
         if(!allTags){
             return next("400" , "No Tag Found")

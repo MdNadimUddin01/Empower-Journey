@@ -64,7 +64,8 @@ exports.updateSection = async (req, res, next) => {
 
     const updatedSection = await Section.findByIdAndUpdate(
       { _id: sectionId },
-      { sectionName: sectionName }
+      { sectionName: sectionName },
+      {new:true}
     );
 
     return res.status(200).json({
@@ -95,7 +96,7 @@ exports.deleteSection = async (req, res , next) => {
 
       sections.splice(index, 1);
 
-      await Course.findByIdAndUpdate({ _id: courseId }, { sections: sections });
+      await Course.findByIdAndUpdate({ _id: courseId }, { sections: sections } , {new:true});
       
     }
 
