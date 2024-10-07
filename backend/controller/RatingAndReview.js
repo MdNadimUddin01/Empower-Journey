@@ -57,19 +57,26 @@ exports.editRatingAndReview = async(req , res , next) => {
             return next(errorHandle(400 , "All Fields are required"));
         }
 
-        if(rating && review){
+        const update = {}
 
-            await RatingAndReview.findByIdAndUpdate({_id:ratingAndReviewId} , {rating , review});
+        if(rating){
+            update.rating = rating
+        }
 
-        }else if(rating){
-            await RatingAndReview.findByIdAndUpdate({_id:ratingAndReviewId} , {rating});
-        }else{
-            await RatingAndReview.findByIdAndUpdate({_id:ratingAndReviewId} , {rating });
+        if(review){
+            update.review = review
+        }
+
+        const ratingAndReview = await RatingAndReview.findByIdAndUpdate({_id:ratingAndReviewId} , update , {new:true});
+
+        if(null){
+            return next(errorHandle(404 , "rating and review not found"));
         }
 
         return res.status(200).json({
             success:true,
-            message:"Rating and review updated"
+            message:"Rating and review updated",
+            ratingAndReview
         })
 
 

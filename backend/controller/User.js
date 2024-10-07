@@ -16,13 +16,21 @@ exports.getUserDetails = async(req , res , next) => {
             courseProgress:true
         }).populate({
             path:"courses",
-            populate:{
-                path:"sections",
-                populate:{
-                    path:"subSections",
+            populate: [
+                {
+                    path : "frequentlyAskedQuestions"
+                },
+                {
+                    path:"ratingAndReviews",
+                },
+                {
+                    path : "sections",
+                    populate : {
+                        path:"subSections"
+                    }
                 }
-            }
-        }).populate("courseProgress").exec();
+            ]
+        });
 
         return res.status(200).json({
             success:true,

@@ -40,7 +40,6 @@ exports.isStudent = async(req , res ,next) => {
             return next(errorHandle("404" , "Not found"));
         }
 
-        console.log(user);
 
         if(user.accountType !== "Student"){
 

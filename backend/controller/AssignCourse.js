@@ -1,3 +1,4 @@
+const { populate } = require("dotenv");
 const { Course } = require("../model/Course");
 const { User } = require("../model/User");
 
@@ -18,7 +19,18 @@ exports.assignCourse = async(req , res) => {
             $push:{
                 courses:courseDetails._id
             }
-        })
+            
+        },{new:true}).populate(
+            {
+                path:"courses",
+                populate:{
+                    path:"sections",
+                    populate:{
+                        path:"subSections"
+                    }
+                }
+            }
+        )
 
         return res.status(200).json({
             success:true,
