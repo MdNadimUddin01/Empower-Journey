@@ -46,7 +46,7 @@ exports.createSection = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       message: "Section created successfully",
-      courseDetails,
+      newSection,
     });
   } catch (error) {
     return next(error);
@@ -80,24 +80,21 @@ exports.updateSection = async (req, res, next) => {
 
 exports.deleteSection = async (req, res , next) => {
   try {
-    const { sectionId, courseId } = req.body;
+    const { sectionId } = req.body;
 
-    if(!sectionId || !courseId){
+    if(!sectionId){
       return next(errorHandle(401 , "All Fields are required"))
     }
 
-    await Section.findByIdAndDelete({ _id: sectionId });
+    const data = await Section.findByIdAndDelete({ _id: sectionId });
 
-    const { sections } = await Course.findById(courseId);
+    if(!data){
 
-    const index = sections.indexof(sectionId);
+      return res.status(400).json({
+        success:false,
+        message:"section not found",
+      })
 
-    if (index !== -1) {
-
-      sections.splice(index, 1);
-
-      await Course.findByIdAndUpdate({ _id: courseId }, { sections: sections } , {new:true});
-      
     }
 
     return res.status(200).json({
@@ -105,7 +102,7 @@ exports.deleteSection = async (req, res , next) => {
       message: "Section deleted",
     });
 
-  } catch (error) {
+  }catch (error) {
     return next(error);
   }
   

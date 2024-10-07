@@ -49,19 +49,22 @@ exports.editFAQ = async(req , res , next) => {
             return next(errorHandle(400 , "All Fields are required"));
         }
 
-        if(question && answer){
+        const update = {}
 
-            await FrequentlyAskedQuestion.findByIdAndUpdate({_id:FAQId } , {rating , review});
-
-        }else if(question){
-            await FrequentlyAskedQuestion.findByIdAndUpdate({_id:FAQId } , {question});
-        }else{
-            await FrequentlyAskedQuestion.findByIdAndUpdate({_id:FAQId  } , {answer });
+        if(question){
+            update.question = question
         }
+
+        if(answer){
+            update.answer = answer
+        }
+
+        const updatedFAQ = await FrequentlyAskedQuestion.findByIdAndUpdate(FAQId , update , {new:true})
 
         return res.status(200).json({
             success:true,
-            message:"FAQ updated"
+            message:"FAQ updated",
+            updatedFAQ
         })
 
     }catch(error){
@@ -76,18 +79,13 @@ exports.deleteFAQ = async(req , res , next) => {
         const id = req.id
         const {FAQId , courseId} = req.body
 
-        await FrequentlyAskedQuestion.findByIdAndDelete({_id:FAQId});
+        const data = await FrequentlyAskedQuestion.findByIdAndDelete(FAQId , {new:true});
 
-        const { frequentlyAskedQuestions } = await Course.findById(courseId);
-
-        const index = frequentlyAskedQuestions.indexof(FAQId);
-
-        if (index !== -1) {
-        
-            frequentlyAskedQuestions.splice(index, 1);
-
-            await Course.findByIdAndUpdate({ _id: courseId }, { frequentlyAskedQuestions: frequentlyAskedQuestions });
-        
+        if(!data){
+            return res.status(400).json({
+                success:false,
+                message:"FAQ not found"
+            })
         }
 
         return res.status(200).json({

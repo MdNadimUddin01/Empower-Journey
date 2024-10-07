@@ -1,3 +1,4 @@
+const { upload } = require("../middleware/multer");
 const { Section } = require("../model/Section");
 const { SubSection } = require("../model/SubSection");
 const { uploadOnCloudianry } = require("../utils/cloudinary");
@@ -9,7 +10,7 @@ exports.createSubsection = async (req, res, next) => {
     // const {  } = req.params;
     // const {  } = req.params;
     const { subSectionName  , courseId , sectionId , article} = req.body;
-    const {videoFile , otherFile} = req.files
+    // const {videoFile , otherFile} = req.files
 
     if (!subSectionName) {
       return next(errorHandle("401", "All Field are required"));
@@ -20,6 +21,7 @@ exports.createSubsection = async (req, res, next) => {
     }
 
     const existingSection = await Section.findById(sectionId);
+    console.log(existingSection)
 
     if (!existingSection) {
       return next(
@@ -28,8 +30,8 @@ exports.createSubsection = async (req, res, next) => {
     }
 
     // update cloudinary
-    const videoUrl = await uploadOnCloudianry(req.files?.videoFile)
-    const otherUrl = await uploadOnCloudianry(req.files?.otherFile)
+    const videoUrl = await uploadOnCloudianry(req.files?.videoFile?.path)
+    const otherUrl = await uploadOnCloudianry(req.files?.otherFile?.path)
     //Update url
 
     const newSubSection = new SubSection({
@@ -60,8 +62,10 @@ exports.createSubsection = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       message: "Section created successfully",
+      newSubSection,
       sectionDetails,
     });
+
   } catch (error) {
     return next(error);
   }
@@ -73,21 +77,38 @@ exports.updateSubSection = async (req, res, next) => {
     const { subSectionName , subSectionId ,article } = req.body;
     // const {  } = req.params;
 
-    if (!subSectionName || !subSectionId) {
+    
+
+    if (!subSectionName && !subSectionId) {
       return next(errorHandle(400, "All Fields are required"));
     }
 
+    let update = {};
+    
+    if(subSectionName){
+      console.log("HELLO")
+      update.subSectionName = subSectionName
+      console.log("JEE")
+    }
+    
+    if(article){
+      update.article = article
+    }
+
+    // console.
+    
+
     //make sure file is also updated or not
-    const updatedSection = await SubSection.findByIdAndUpdate(
-      { _id: subSectionId },
-      { subSectionName: subSectionName },
-      {article:article}
+    const updatedSubSection = await SubSection.findByIdAndUpdate(
+      {_id:subSectionId},
+      {subSectionName}
+      ,{new:true}
     );
 
     return res.status(200).json({
       success: true,
       message: "SubSection Updated",
-      updatedSection,
+      updatedSubSection,
     });
     
   } catch (error) {
@@ -98,23 +119,29 @@ exports.updateSubSection = async (req, res, next) => {
 
 exports.deleteSubSection = async (req, res) => {
   try {
-    const { subSectionId, sectionId } = req.params;
+    const { subSectionId } = req.body;
 
-    await SubSection.findByIdAndDelete({ _id: subSectionId });
+    const data = await SubSection.findByIdAndDelete({ _id: subSectionId });
 
-    const { subSections } = await Section.findById(courseId);
-
-    const index = subSections.indexof(subSectionId);
-
-    if (index !== -1) {
-      subSections.splice(index, 1);
-
-      await Section.findByIdAndUpdate(
-        { _id: sectionId },
-        { subSections: subSections }
-      );
-
+    if(!data){
+      return res.status(404).json({
+        success:false,
+        message:"Subsection not found"
+      })
     }
+    // const { subSections } = await Section.findById(courseId);
+
+    // const index = subSections.indexof(subSectionId);
+
+    // if (index !== -1) {
+    //   subSections.splice(index, 1);
+
+    //   await Section.findByIdAndUpdate(
+    //     { _id: sectionId },
+    //     { subSections: subSections }
+    //   );
+
+    // }
 
     return res.status(200).json({
       success: true,
@@ -124,6 +151,7 @@ exports.deleteSubSection = async (req, res) => {
   } catch (error) {
     return next(error);
   }
+
 };
 
 // exports.getAllSubSection = async(req , res , next) => {
