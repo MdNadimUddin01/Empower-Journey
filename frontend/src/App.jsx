@@ -6,19 +6,22 @@ import './App.css'
 import { Signup } from './components/Signup'
 import { Signin } from './components/Signin'
 import { LandingPage } from './components/LandingPage'
+import toast, { Toaster } from 'react-hot-toast';
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <BrowserRouter>
+    <div>
+      <BrowserRouter>
       <Routes>
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/signin' element={<Signin/>}/>
         <Route path='/' element={<LandingPage />} />
       </Routes>
     </BrowserRouter>
+    <Toaster></Toaster>
+    </div>
   )
 }
-
 
 export default App

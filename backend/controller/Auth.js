@@ -81,12 +81,15 @@ exports.login = async(req , res , next) => {
   try{
 
     const {email ,password} = req.body;
+    // console.table([email , password])
 
     if(!email || !password){
       return next(errorHandle("400" , "All field are required"));
     }
 
     const existingUser = await User.findOne({email});
+
+    
 
     if(!existingUser){
       return next(errorHandle("404" , "User doesn't exists"));
@@ -95,6 +98,7 @@ exports.login = async(req , res , next) => {
     const hashedPassword = existingUser.password;
 
     if(!bcrypt.compareSync(password , hashedPassword)){
+      // console.log("USER : " , existingUser);
       return next(errorHandle("400" , "Invalid Password"))
     }
 
