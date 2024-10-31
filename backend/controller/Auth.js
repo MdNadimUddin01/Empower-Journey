@@ -5,6 +5,7 @@ const { errorHandle } = require("../utils/errorHandler");
 const { OTP } = require("../model/OTP");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const { create } = require("domain");
 require("dotenv").config();
 
 
@@ -20,7 +21,13 @@ exports.signUp = async (req, res, next) => {
       accountType,
       otp,
     } = req.body;
-
+    console.table([email,
+      password,
+      confirmPassword,
+      firstName,
+      lastName,
+      accountType,
+      otp])
 
     if (!email || !password || !confirmPassword || !firstName || !lastName){
       return next(errorHandle("403", "All Field are required"));
@@ -39,10 +46,12 @@ exports.signUp = async (req, res, next) => {
     if(existingEmail){
       return next(errorHandle("409" , "User Already exists"));
     }
+    
+    const findCurrentotp = await OTP.findOne({ email }).sort({createdAt : -1});
 
-    const findCurrentotp = await OTP.findOne({email}).sort({createdAt : -1});
+    console.log(findCurrentotp);
 
-    if(findCurrentotp.otp !== otp){
+    if(findCurrentotp?.otp !== otp){
       return next(errorHandle("400" , "Invalid Otp"));
     }
 

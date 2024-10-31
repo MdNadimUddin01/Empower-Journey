@@ -3,25 +3,14 @@ import './LandingPage.css';
 import { useNavigate } from 'react-router-dom';
 import learningImage from './landing page.png';
 import { FiCheckCircle } from "react-icons/fi";
-
-
+import Navbar from './Navbar';
 export function LandingPage() {
   const navigate = useNavigate();
 
   return (
     <div className="landing-page dark-theme">
       {/* Header Section */}
-      <header className="header">
-        <div className="logo">Empower-<span className="highlight">Journey</span></div>
-        <nav className="nav">
-          <a className="hover:text-blue-400 text-lg transition duration-300" href="home">Home</a>
-          <a className="hover:text-blue-400 text-lg transition duration-300" href="categories">Categories</a>
-          <a className="hover:text-blue-400 text-lg transition duration-300" href="courses">Courses</a>
-          <a className="hover:text-blue-400 text-lg transition duration-300" href="login">Login</a>
-        </nav>
-        <button className="btn-login" onClick={() => navigate('/signin')}>Log In</button>
-      </header>
-
+      <Navbar></Navbar>
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">

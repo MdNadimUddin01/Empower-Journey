@@ -38,7 +38,7 @@ export function Signin() {
   
 
   return (
-    <div className="relative h-screen font-sans">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 relative h-screen font-sans">
       {/* Background container */}
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat"
            style={{ backgroundImage: `url(${bg})` }}>
@@ -51,25 +51,10 @@ export function Signin() {
       <div className="relative z-10 flex justify-center items-center h-full">
         <div className="bg-white bg-opacity-90 backdrop-blur-md p-10 rounded-xl shadow-2xl gap-y-5 w-full max-w-lg">
           
-          <h1 className="mb-5 flex justify-center text-3xl font-extrabold text-blue-700 underline underline-offset-4">
+          <h1 className="mb-5 flex justify-center text-3xl font-extrabold text-gray-800 underline underline-offset-4">
             Log In
           </h1>
 
-          {/* Student and Instructor toggles */}
-          <div className="grid grid-cols-2 gap-5 mb-8">
-
-            <button
-              onClick={() => settype(0)}
-              className={`${type === 0 ? 'bg-blue-700' : 'bg-gray-300'} rounded-md p-3 text-white text-lg transition duration-300`}>
-              Student
-            </button>
-
-            <button
-              onClick={() => settype(1)}
-              className={`${type === 1 ? 'bg-blue-700' : 'bg-gray-300'} rounded-md p-3 text-white text-lg transition duration-300`}>
-              Instructor
-            </button>
-          </div>
 
           {/* Input fields */}
           <div className="mb-6">
@@ -89,7 +74,7 @@ export function Signin() {
             </button>
             <button
               onClick={loginApi}
-              className="w-full p-3 bg-blue-700 text-white rounded-xl hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
+              className="w-full p-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300">
               Log In
             </button>
           </div>
