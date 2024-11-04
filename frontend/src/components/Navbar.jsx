@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import axios from "axios";
 import UserMenu from "./home/UserMenu";
+import { SquareUser } from "lucide-react";
 
 const Navbar = () => {
   const { token } = useSelector((state) => {
@@ -95,7 +96,7 @@ const Navbar = () => {
         dark === "dark"
           ? "bg-gradient-to-r from-gray-900 via-gray-900 to-gray-900 text-gray-100"
           : "bg-[linear-gradient(90deg,_#a1c4fd_0%,_#c2e9fb_100%)] text-black"
-      } top-0 fixed z-[100] py-4 md:py-2 flex justify-between items-center w-full px-5 lg:py-2 lg:px-28 md:px-10 transition-transform duration-300 ease-in-out ${
+      } top-0 fixed z-[100] py-4 md:py-2 flex justify-between border-b border-gray-900 items-center w-full px-5 lg:py-2 lg:px-28 md:px-10 transition-transform duration-300 ease-in-out ${
         isNavbarVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
@@ -261,21 +262,32 @@ const Navbar = () => {
             <p className="font-bold text-lg hover:brightness-50">About</p>
           </NavLink>
 
-          <div className="flex  group gap-2 items-center relative">
+          <div className="flex cursor-pointer group gap-2 items-center relative">
             <FaBookOpenReader />
             <p className="font-bold text-lg ">Courses</p>
             <MdKeyboardArrowDown className="-ml-1" />
-            <div className="invisible absolute left-[50%] top-[20%] shadow-lg p-2 translate-x-[-50%] translate-y-[50%] flex flex-col rounded-md bg-white text-black opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 sm:w-[300px] w-[80%]">
-              <div className="absolute left-[50%] -top-5 h-6 w-6 translate-y-[25%] rotate-45 rounded bg-white"></div>
+            <div className="flex flex-col gap-2 p-3 rounded-lg text-white w-48 invisible absolute bg-gray-800 group-hover:visible -translate-x-[20%] top-[110%]">
+              {/* <div className=""></div> */}
               {sublinks.map((item, index) => {
                 return (
-                  <Link to={item.tagName} key={index}>
-                    <p>{item.tagName}</p>
+                  <Link
+                    to={item.tagName}
+                    className="flex items-center gap-2 px-2 py-1 hover:bg-gray-700 rounded-md "
+                  >
+                    <span className="font-medium">{item.tagName}</span>
                   </Link>
                 );
               })}
             </div>
           </div>
+
+          <NavLink
+            to="/contactUs"
+            className="flex justify-center items-center gap-2"
+          >
+            <SquareUser />
+            <p className="font-bold text-lg hover:brightness-50">Contact</p>
+          </NavLink>
         </div>
       </div>
 

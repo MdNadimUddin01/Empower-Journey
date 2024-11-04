@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import {
   Sparkles,
@@ -15,6 +13,7 @@ import {
 import AnimatedFeatures from "../components/home/AnimatedFeatures";
 import CodeBlocks from "../components/home/CodeBlocks";
 import HeroSection from "../components/home/HeroSection";
+import Card from "../components/home/Card";
 
 const Home = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -45,7 +44,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen bg-slate-900 relative overflow-hidden">
       {/* Interactive Background */}
       <div
         className="fixed inset-0 z-0 pointer-events-none transition-all duration-1000 ease-out"
@@ -73,7 +72,7 @@ const Home = () => {
             </div>
           }
           subheading="Our courses are designed and taught by industry experts."
-          codeblock = {`<!DOCTYPE html>\n <html lang="en">\n<head>\n<title>This is myPage</title>\n</head>\n<body>\n<h1><a href="/">Header</a></h1>\n<nav> <a href="/one">One</a> <a href="/two">Two</a> <a href="/three">Three</a>\n</nav>\n</body>`}
+          codeblock={`<!DOCTYPE html>\n <html lang="en">\n<head>\n<title>This is myPage</title>\n</head>\n<body>\n<h1><a href="/">Header</a></h1>\n<nav> <a href="/one">One</a> <a href="/two">Two</a> <a href="/three">Three</a>\n</nav>\n</body>`}
           codeColor={"text-yellow-25"}
           backgroundGradient={<div className="codeblock1 absolute"></div>}
         />
@@ -95,12 +94,12 @@ const Home = () => {
             </div>
           }
           subheading="Get started with hands-on coding right from the first lesson."
-          codeblock = {`import React from "react";\n import CTAButton from "./Button";\nimport TypeAnimation from "react-type";\nimport { FaArrowRight } from "react-icons/fa";\n\nconst Home = () => {\nreturn (\n<div>Home</div>\n)\n}\nexport default Home;`}
+          codeblock={`import React from "react";\n import CTAButton from "./Button";\nimport TypeAnimation from "react-type";\nimport { FaArrowRight } from "react-icons/fa";\n\nconst Home = () => {\nreturn (\n<div>Home</div>\n)\n}\nexport default Home;`}
           codeColor={"text-white"}
           backgroundGradient={<div className="codeblock2 absolute"></div>}
         />
       </div>
-      
+
       {/* Scroll to Top Button */}
       {showScrollTop && (
         <button

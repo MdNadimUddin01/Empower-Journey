@@ -4,7 +4,7 @@ import logo from "../../images/Logo.webp"
 function Footer() {
   return (
     <div>
-      <footer className="bg-gray-900 text-gray-400">
+      <footer className="bg-gradient-to-r from-gray-900 via-gray-900 to-gray-900 text-gray-100 shadow-transparent border-gray-800 border-t">
         {/* Main Footer Content */}
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

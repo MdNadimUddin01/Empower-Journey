@@ -34,17 +34,17 @@ const AnimatedFeatures = () => {
               {/* Wrapper div to handle hover transform */}
               <div className="transform-gpu transition-all duration-300 hover:scale-105">
                 <div
-                  className={`h-48 p-6 rounded-xl bg-white shadow-lg 
+                  className={`h-48 p-6 rounded-xl bg-blue-150 shadow-lg 
                     hover:shadow-2xl border border-gray-100
-                    flex flex-col`}
+                    flex flex-col `}
                 >
                   <div className="flex-shrink-0">
                     <card.icon className="w-8 h-8 mb-3 text-blue-600" />
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 whitespace-normal flex-shrink-0">
+                  <h3 className="text-lg font-bold text-white mb-2 whitespace-normal flex-shrink-0">
                     {card.title}
                   </h3>
-                  <p className="text-gray-600 text-sm whitespace-normal line-clamp-2 flex-grow">
+                  <p className="text-white text-sm whitespace-normal line-clamp-2 flex-grow">
                     {card.description}
                   </p>
                 </div>
