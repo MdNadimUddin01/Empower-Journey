@@ -11,27 +11,41 @@ import CourseCard from './components/Course/CourseCard'
 import Home from './pages/Home'
 import Navbar from './components/Navbar'
 import Otp from './components/Course/Otp'
+import {Provider} from "react-redux"
+import rootReducer from './reducers'
+import { configureStore } from '@reduxjs/toolkit'
+import Footer from './components/home/Footer'
+
+const store = configureStore({
+  reducer : rootReducer,
+})
+
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div>
+    <Provider store={store}>
+      <div>
+      
       <BrowserRouter>
-      {/* <Navbar></Navbar> */}
+      <Navbar></Navbar>
+      <div className='pt-16'>
       <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/about' element={<Home />} />
+        <Route path='/profile' element={<Home />} />
+        <Route path='/home' element={<Home />} />
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/signin' element={<Signin/>}/>
-        <Route path='/' element={<LandingPage />} />
-        <Route path='/about' element={<LandingPage />} />
-        <Route path='/profile' element={<LandingPage />} />
         <Route path='/courses' element={<CourseCard />} />
-        <Route path='/home' element={<Home />} />
         <Route path='/otp' element={<Otp />} />
-        
       </Routes>
+      </div>
+      <Footer></Footer>
     </BrowserRouter>
     <Toaster></Toaster>
     </div>
+    </Provider>
+
   )
 }
 

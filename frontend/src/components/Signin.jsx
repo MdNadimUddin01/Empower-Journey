@@ -4,6 +4,8 @@ import { useState } from "react";
 import axios from "axios"
 import bg from '../assets/background.avif';
 import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../slices/profileSlice";
 
 export function Signin() {
   const navigate = useNavigate();
@@ -11,6 +13,18 @@ export function Signin() {
   const [type, settype] = useState(0);
   const [email , setEmail] = useState("");
   const [password , setPassword] = useState("");
+  const {token} = useSelector((state) => {
+    // console.log(state.profile.user)
+    return state.auth;
+  });
+  const {user} = useSelector((state) => {
+    return state.profile;
+  });
+  
+  console.log(user);
+
+  const dispatch = useDispatch();
+
 
   async function loginApi(){
 
@@ -22,7 +36,10 @@ export function Signin() {
       // const data = await response.json();
 
       console.log(data)
+      dispatch(setUser(data.userInfo));
+      // console.log(user);
       // navigate("/apiTesting")
+      navigate("/home")
       toast.remove(toastId)
       toast.success(data.message)
 

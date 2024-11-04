@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { IoMenu, IoClose } from "react-icons/io5";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { MdOutlineLocalHospital, MdLogin, MdDarkMode } from "react-icons/md";
+import {
+  MdOutlineLocalHospital,
+  MdLogin,
+  MdDarkMode,
+  MdKeyboardArrowDown,
+} from "react-icons/md";
 import { WiDaySunny } from "react-icons/wi";
 import { useRecoilState } from "recoil";
 // import { mode } from "../store/atom";
@@ -11,10 +16,50 @@ import { useRecoilState } from "recoil";
 import { FaHome } from "react-icons/fa";
 import { FaUserPlus } from "react-icons/fa";
 import { FiUser } from "react-icons/fi"; // New icon for user placeholder
-import logo from "../images/Logo.webp"
-import { FaBookOpenReader } from "react-icons/fa6";
+import logo from "../images/Logo.webp";
+import { FaBookOpenReader, FaCartShopping } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { apiConnector } from "../services/apiConnector";
+import { categories } from "../services/apis";
+import axios from "axios";
+import UserMenu from "./home/UserMenu";
 
 const Navbar = () => {
+  const {token} = useSelector((state) => {
+    return state.auth;
+  });
+  const {user} = useSelector((state) => {
+    return state.profile;
+  });
+
+  const {totalItems} = useSelector((state) => {
+    return state.cart;
+  });
+
+  const [sublinks, setSubLinks] = useState([]);
+
+  const fetchSubLinks = async () => {
+    try {
+      // const result = await apiConnector("GET" , categories.CATEGORIES_API)
+      const result = await axios.get(
+        "http://localhost:4000/api/v1/getAllTags",
+        {}
+      );
+      // console.log("Sublinks : ", result.data)
+      setSubLinks(result.data.allTags);
+      // console.log(sublinks);
+    } catch (error) {
+      toast.error("Could fetch the category");
+    }
+  };
+
+  useEffect(() => {
+    fetchSubLinks();
+  }, []);
+
+  const handleLogout = () => {};
+
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dark, setDark] = useState("dark");
   const [isNavbarVisible, setNavbarVisible] = useState(true);
@@ -22,7 +67,7 @@ const Navbar = () => {
 
   // Access isAuthenticated, user, and handleLogout from UserContext
   // const { isAuthenticated, user, handleLogout } = useContext(UserContext);
-  const[isAuthenticated , setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen);
 
@@ -59,22 +104,22 @@ const Navbar = () => {
     <nav
       className={`${
         dark === "dark"
-          ? "bg-gradient-to-r from-gray-700 via-gray-900 to-black text-gray-100"
+          ? "bg-gradient-to-r from-gray-900 via-gray-900 to-gray-900 text-gray-100"
           : "bg-[linear-gradient(90deg,_#a1c4fd_0%,_#c2e9fb_100%)] text-black"
-      } top-0 fixed z-[100] py-4 md:py-2 flex justify-between items-center w-full px-5 lg:py-2 md:px-10 transition-transform duration-300 ease-in-out ${
+      } top-0 fixed z-[100] py-4 md:py-2 flex justify-between items-center w-full px-5 lg:py-2 lg:px-28 md:px-10 transition-transform duration-300 ease-in-out ${
         isNavbarVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
       <NavLink to="/">
         <img
           className="h-10 sm:pl-2 md:h-14"
-          alt="medi-connects logo"
+          alt="logo"
           src={logo}
           onClick={() => setMobileMenuOpen(false)}
         />
       </NavLink>
 
-      <div className="lg:hidden block absolute z-[101] right-3 md:right-8 text-3xl md:text-4xl">
+      <div className="md:hidden block absolute z-[101] right-3 md:right-8 text-3xl md:text-4xl">
         {isMobileMenuOpen ? (
           <IoClose onClick={toggleMobileMenu} />
         ) : (
@@ -86,9 +131,9 @@ const Navbar = () => {
         <div
           className={`${
             dark === "dark"
-              ? "bg-gradient-to-r from-gray-700 via-gray-900 to-black text-gray-100"
+              ? "bg-gradient-to-r from-gray-800 via-gray-900 to-black text-gray-100"
               : "bg-[linear-gradient(90deg,_#a1c4fd_0%,_#c2e9fb_100%)] text-black"
-          } lg:hidden absolute z-[100] flex text-xl md:text-2xl flex-col items-start pl-8 md:pl-12 gap-5 md:gap-7 top-16 md:top-[72px] w-full left-0 py-7 md:py-9 h-fit`}
+          } md:hidden absolute z-[100] flex text-xl md:text-2xl flex-col items-start pl-8 md:pl-12 gap-5 md:gap-7 top-16 md:top-[72px] w-full left-0 py-7 md:py-9 h-fit`}
         >
           <button
             onClick={handleToggleMode}
@@ -140,17 +185,13 @@ const Navbar = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               <FaBookOpenReader />
-              <p className="hover:brightness-50 hover:font-semibold">
-                Courses
-              </p>
+              <p className="hover:brightness-50 hover:font-semibold">Courses</p>
             </NavLink>
           )}
 
           {/* Show Lab Tests and Hospitals Around for regular user */}
 
-
           {/* Show only Hospitals Around for hospital */}
-          
 
           {isAuthenticated ? (
             <>
@@ -202,7 +243,8 @@ const Navbar = () => {
         </div>
       )}
 
-      <div className="hidden lg:flex items-center gap-10">
+      {/* Courses , About , Home */}
+      <div className="hidden md:flex items-center gap-14">
         <div className="flex items-center gap-6 text-lg font-medium">
           <button
             onClick={handleToggleMode}
@@ -214,7 +256,7 @@ const Navbar = () => {
           >
             {dark === "light" ? <WiDaySunny /> : <MdDarkMode />}
           </button>
-          <NavLink to="/" className="flex justify-center items-center gap-2">
+          <NavLink to="/home" className="flex justify-center items-center gap-2">
             <FaHome />
             <p className="font-bold text-lg hover:brightness-50">Home</p>
           </NavLink>
@@ -227,32 +269,61 @@ const Navbar = () => {
             <p className="font-bold text-lg hover:brightness-50">About</p>
           </NavLink>
 
-          <NavLink to="/courses" className="flex items-baseline gap-2">
+          <div
+            
+            className="flex  group gap-2 items-center relative"
+          >
             <FaBookOpenReader />
-              <p className="font-bold text-lg hover:brightness-50">Courses</p>
-          </NavLink>
+            <p className="font-bold text-lg ">Courses</p>
+            <MdKeyboardArrowDown className="-ml-1" />
+            <div className="invisible absolute left-[50%] top-[20%] shadow-lg p-2 translate-x-[-50%] translate-y-[50%] flex flex-col rounded-md bg-white text-black opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 sm:w-[300px] w-[80%]">
+                <div className="absolute left-[50%] -top-5 h-6 w-6 translate-y-[25%] rotate-45 rounded bg-white">
 
-          {isAuthenticated ? (
+                </div>
+                {
+                  sublinks.map((item , index) => {
+                    return <Link to={item.tagName} key={index}>
+                      <p>{item.tagName}</p>
+                    </Link>
+                  })
+                }
+              </div>
+
+          </div>
+        </div>
+      </div>
+
+      {/* User , Login , Register */}
+      <div className="md:flex hidden items-center gap-10">
+
+          {user && user.accountType !== "Instructor" && (
+            <Link to="/dashboard/cart" className="relative">
+              <FaCartShopping />
+              {totalItems > 0 && <span>{totalItems}</span>}
+            </Link>
+          )}
+
+          {user ? (
             <>
               {/* Profile Avatar with Name */}
-              <NavLink
-                className={({ isActive }) =>
-                  `${
-                    isActive ? "border-b border-white " : ""
-                  } flex gap-2 items-baseline`
-                }
-                to="/profile"
+              <div
+                className={"cursor-pointer group relative"}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {" "}
-                <FiUser className="text-xl" />
-                <p className="font-bold text-lg hover:brightness-50">
-                  HELLO
-                  {/* {user?.name || user?.hospitalName} */}
-                </p>
-              </NavLink>
+                {/* {" "} */}
+                <p className="font-bold text-lg text-red flex items-center gap-3">
+                  <FiUser className="text-xl" />
+                  
+                  {user.firstName}
 
-              <button
+                </p>
+                <div className="invisible absolute group-hover:visible -translate-x-[50%] top-[110%]">
+                  <UserMenu userName={user.firstName + " " + user.lastName}></UserMenu>
+                </div>
+                
+              </div>
+
+              {/* <button
                 className={`${
                   dark === "dark"
                     ? "bg-gray-900 text-gray-100"
@@ -261,7 +332,7 @@ const Navbar = () => {
                 onClick={handleLogout}
               >
                 Log Out
-              </button>
+              </button> */}
             </>
           ) : (
             <div className="flex gap-5">
@@ -343,7 +414,6 @@ const Navbar = () => {
             </div>
           )}
         </div>
-      </div>
     </nav>
   );
 };
