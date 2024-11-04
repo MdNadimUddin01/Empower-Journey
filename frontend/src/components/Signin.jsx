@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios"
 import bg from '../assets/background.avif';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../slices/profileSlice";
 

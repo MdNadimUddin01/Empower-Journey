@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useState , useRef, useEffect} from "react";
 import bg from "../assets/background.avif";
 import axios from "axios";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 export function Signup() {
   const navigate = useNavigate();

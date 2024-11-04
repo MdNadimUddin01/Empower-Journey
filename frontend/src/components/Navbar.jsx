@@ -1,18 +1,9 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { IoMenu, IoClose } from "react-icons/io5";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import {
-  MdOutlineLocalHospital,
-  MdLogin,
-  MdDarkMode,
-  MdKeyboardArrowDown,
-} from "react-icons/md";
+import { MdLogin, MdDarkMode, MdKeyboardArrowDown } from "react-icons/md";
 import { WiDaySunny } from "react-icons/wi";
-import { useRecoilState } from "recoil";
-// import { mode } from "../store/atom";
-// import { UserContext } from "../store/userContext";
-// import PropTypes from "prop-types";
 import { FaHome } from "react-icons/fa";
 import { FaUserPlus } from "react-icons/fa";
 import { FiUser } from "react-icons/fi"; // New icon for user placeholder
@@ -20,20 +11,18 @@ import logo from "../images/Logo.webp";
 import { FaBookOpenReader, FaCartShopping } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { apiConnector } from "../services/apiConnector";
-import { categories } from "../services/apis";
 import axios from "axios";
 import UserMenu from "./home/UserMenu";
 
 const Navbar = () => {
-  const {token} = useSelector((state) => {
+  const { token } = useSelector((state) => {
     return state.auth;
   });
-  const {user} = useSelector((state) => {
+  const { user } = useSelector((state) => {
     return state.profile;
   });
 
-  const {totalItems} = useSelector((state) => {
+  const { totalItems } = useSelector((state) => {
     return state.cart;
   });
 
@@ -256,7 +245,10 @@ const Navbar = () => {
           >
             {dark === "light" ? <WiDaySunny /> : <MdDarkMode />}
           </button>
-          <NavLink to="/home" className="flex justify-center items-center gap-2">
+          <NavLink
+            to="/home"
+            className="flex justify-center items-center gap-2"
+          >
             <FaHome />
             <p className="font-bold text-lg hover:brightness-50">Home</p>
           </NavLink>
@@ -269,61 +261,54 @@ const Navbar = () => {
             <p className="font-bold text-lg hover:brightness-50">About</p>
           </NavLink>
 
-          <div
-            
-            className="flex  group gap-2 items-center relative"
-          >
+          <div className="flex  group gap-2 items-center relative">
             <FaBookOpenReader />
             <p className="font-bold text-lg ">Courses</p>
             <MdKeyboardArrowDown className="-ml-1" />
             <div className="invisible absolute left-[50%] top-[20%] shadow-lg p-2 translate-x-[-50%] translate-y-[50%] flex flex-col rounded-md bg-white text-black opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 sm:w-[300px] w-[80%]">
-                <div className="absolute left-[50%] -top-5 h-6 w-6 translate-y-[25%] rotate-45 rounded bg-white">
-
-                </div>
-                {
-                  sublinks.map((item , index) => {
-                    return <Link to={item.tagName} key={index}>
-                      <p>{item.tagName}</p>
-                    </Link>
-                  })
-                }
-              </div>
-
+              <div className="absolute left-[50%] -top-5 h-6 w-6 translate-y-[25%] rotate-45 rounded bg-white"></div>
+              {sublinks.map((item, index) => {
+                return (
+                  <Link to={item.tagName} key={index}>
+                    <p>{item.tagName}</p>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
 
       {/* User , Login , Register */}
       <div className="md:flex hidden items-center gap-10">
+        {user && user.accountType !== "Instructor" && (
+          <Link to="/dashboard/cart" className="relative">
+            <FaCartShopping />
+            {totalItems > 0 && <span>{totalItems}</span>}
+          </Link>
+        )}
 
-          {user && user.accountType !== "Instructor" && (
-            <Link to="/dashboard/cart" className="relative">
-              <FaCartShopping />
-              {totalItems > 0 && <span>{totalItems}</span>}
-            </Link>
-          )}
+        {user ? (
+          <>
+            {/* Profile Avatar with Name */}
+            <div
+              className={"cursor-pointer group relative"}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {/* {" "} */}
+              <p className="font-bold text-lg text-red flex items-center gap-3">
+                <FiUser className="text-xl" />
 
-          {user ? (
-            <>
-              {/* Profile Avatar with Name */}
-              <div
-                className={"cursor-pointer group relative"}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {/* {" "} */}
-                <p className="font-bold text-lg text-red flex items-center gap-3">
-                  <FiUser className="text-xl" />
-                  
-                  {user.firstName}
-
-                </p>
-                <div className="invisible absolute group-hover:visible -translate-x-[50%] top-[110%]">
-                  <UserMenu userName={user.firstName + " " + user.lastName}></UserMenu>
-                </div>
-                
+                {user.firstName}
+              </p>
+              <div className="invisible absolute group-hover:visible -translate-x-[50%] top-[110%]">
+                <UserMenu
+                  userName={user.firstName + " " + user.lastName}
+                ></UserMenu>
               </div>
+            </div>
 
-              {/* <button
+            {/* <button
                 className={`${
                   dark === "dark"
                     ? "bg-gray-900 text-gray-100"
@@ -333,87 +318,87 @@ const Navbar = () => {
               >
                 Log Out
               </button> */}
-            </>
-          ) : (
-            <div className="flex gap-5">
-              <NavLink
+          </>
+        ) : (
+          <div className="flex gap-5">
+            <NavLink
+              style={{
+                backgroundColor: dark === "dark" ? "#1a1a1a" : "#ffffff",
+                color: dark === "dark" ? "#f1f1f1" : "#000000",
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                transform: "scale(1)",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                animation: "slideIn 0.5s ease forwards",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.1)";
+                e.currentTarget.style.boxShadow =
+                  "0px 8px 16px rgba(0, 0, 0, 0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow =
+                  "0px 4px 8px rgba(0, 0, 0, 0.2)";
+              }}
+              className="flex gap-2 items-center px-5 py-1 rounded-lg font-bold"
+              to="/signin"
+            >
+              <MdLogin
                 style={{
-                  backgroundColor: dark === "dark" ? "#1a1a1a" : "#ffffff",
-                  color: dark === "dark" ? "#f1f1f1" : "#000000",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                  transform: "scale(1)",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                  animation: "slideIn 0.5s ease forwards",
+                  transition:
+                    "transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)",
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.1)";
-                  e.currentTarget.style.boxShadow =
-                    "0px 8px 16px rgba(0, 0, 0, 0.4)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
-                  e.currentTarget.style.boxShadow =
-                    "0px 4px 8px rgba(0, 0, 0, 0.2)";
-                }}
-                className="flex gap-2 items-center px-5 py-1 rounded-lg font-bold"
-                to="/signin"
-              >
-                <MdLogin
-                  style={{
-                    transition:
-                      "transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform =
-                      "rotate(360deg) scale(1.2)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "rotate(0deg) scale(1)")
-                  }
-                />{" "}
-                Login
-              </NavLink>
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform =
+                    "rotate(360deg) scale(1.2)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "rotate(0deg) scale(1)")
+                }
+              />{" "}
+              Login
+            </NavLink>
 
-              <NavLink
+            <NavLink
+              style={{
+                backgroundColor: dark === "dark" ? "#1a1a1a" : "#ffffff",
+                color: dark === "dark" ? "#f1f1f1" : "#000000",
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                transform: "scale(1)",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                animation: "slideIn 0.5s ease forwards",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.1)";
+                e.currentTarget.style.boxShadow =
+                  "0px 8px 16px rgba(0, 0, 0, 0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow =
+                  "0px 4px 8px rgba(0, 0, 0, 0.2)";
+              }}
+              className="flex gap-2 items-center px-5 py-1 rounded-lg font-bold"
+              to="/signup"
+            >
+              <FaUserPlus
                 style={{
-                  backgroundColor: dark === "dark" ? "#1a1a1a" : "#ffffff",
-                  color: dark === "dark" ? "#f1f1f1" : "#000000",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                  transform: "scale(1)",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                  animation: "slideIn 0.5s ease forwards",
+                  transition:
+                    "transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)",
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.1)";
-                  e.currentTarget.style.boxShadow =
-                    "0px 8px 16px rgba(0, 0, 0, 0.4)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
-                  e.currentTarget.style.boxShadow =
-                    "0px 4px 8px rgba(0, 0, 0, 0.2)";
-                }}
-                className="flex gap-2 items-center px-5 py-1 rounded-lg font-bold"
-                to="/signup"
-              >
-                <FaUserPlus
-                  style={{
-                    transition:
-                      "transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform =
-                      "rotate(-360deg) scale(1.2)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "rotate(0deg) scale(1)")
-                  }
-                />{" "}
-                Register
-              </NavLink>
-            </div>
-          )}
-        </div>
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform =
+                    "rotate(-360deg) scale(1.2)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "rotate(0deg) scale(1)")
+                }
+              />{" "}
+              Register
+            </NavLink>
+          </div>
+        )}
+      </div>
     </nav>
   );
 };
