@@ -271,10 +271,10 @@ const Navbar = () => {
               {sublinks.map((item, index) => {
                 return (
                   <Link
-                    to={item.tagName}
+                    to={item.tagName} key={index}
                     className="flex items-center gap-2 px-2 py-1 hover:bg-gray-700 rounded-md "
                   >
-                    <span className="font-medium">{item.tagName}</span>
+                    <span key={index} className="font-medium">{item.tagName}</span>
                   </Link>
                 );
               })}

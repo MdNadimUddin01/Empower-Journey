@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const UserMenu = ({ userName}) => {
   return (
     <div className="flex flex-col gap-2 bg-gray-800 p-3 rounded-lg text-white w-48">
-      <Link to="/dashboard" className="flex items-center gap-2 px-2 py-1 hover:bg-gray-700 rounded-md transition-colors">
+      <Link to="/dashboard/profile" className="flex items-center gap-2 px-2 py-1 hover:bg-gray-700 rounded-md transition-colors">
         <div className="bg-gray-700 p-1 rounded-full">
           <User size={20} className="text-gray-300" />
         </div>

@@ -4,16 +4,18 @@ import './App.css'
 import { Signup } from './components/Signup'
 import { Signin } from './components/Signin'
 import  { Toaster } from 'react-hot-toast';
-import CourseCard from './components/Course/CourseCard'
 import Home from './pages/Home'
 import Navbar from './components/Navbar'
-import Otp from './components/Course/Otp'
 import {Provider} from "react-redux"
 import rootReducer from './reducers'
 import { configureStore } from '@reduxjs/toolkit'
 import Footer from './components/home/Footer'
 import About from './pages/About'
 import Contact from './pages/Contact'
+import ProfileDashboard from './pages/ProfileDashboard'
+import CoursePage from './components/Course/CoursePage'
+import CoursePageAccordingToTag from './components/Course/CoursePageAccordingToTag'
+import OTPInput from './components/OtpInput'
 
 const store = configureStore({
   reducer : rootReducer,
@@ -40,13 +42,15 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
-        <Route path='/profile' element={<Home />} />
+        <Route path='/dashboard/profile' element={<ProfileDashboard />} />
         <Route path='/contactUs' element={<Contact />} />
         <Route path='/home' element={<Home />} />
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/signin' element={<Signin/>}/>
-        <Route path='/courses' element={<CourseCard />} />
-        <Route path='/otp' element={<Otp />} />
+        {/* <Route path='/courses' element={<CourseCard />} /> */}
+        <Route path='/courses/python/current' element={<CoursePage />} />
+        <Route path='/courses/python' element={<CoursePageAccordingToTag />} />
+        <Route path='/otp' element={<OTPInput />} />
       </Routes>
       </div>
       <Footer></Footer>

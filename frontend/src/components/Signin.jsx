@@ -6,25 +6,24 @@ import bg from '../assets/background.avif';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../slices/profileSlice";
+import { setToken } from "../slices/authSlice";
 
 export function Signin() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [type, settype] = useState(0);
   const [email , setEmail] = useState("");
   const [password , setPassword] = useState("");
+  
   const {token} = useSelector((state) => {
-    // console.log(state.profile.user)
     return state.auth;
   });
+
   const {user} = useSelector((state) => {
     return state.profile;
   });
   
-  console.log(user);
 
   const dispatch = useDispatch();
-
 
   async function loginApi(){
 
@@ -33,24 +32,27 @@ export function Signin() {
     try{
 
       const {data} = await axios.post("http://localhost:4000/api/v1/login" , {email , password})
-      // const data = await response.json();
-
       console.log(data)
+
       dispatch(setUser(data.userInfo));
-      // console.log(user);
-      // navigate("/apiTesting")
-      navigate("/home")
+      dispatch(setToken(data.token));
+
+      localStorage.setItem("token", JSON.stringify(data.token))
+      
+      navigate("/dashboard/profile")
+      // console.log(data.token)
+      
       toast.remove(toastId)
       toast.success(data.message)
 
     }catch(error){
 
       const {message} = error.response.data
-      console.log(message)
       toast.remove(toastId)
       toast.error(message)
 
     }
+    
   }
   
 
