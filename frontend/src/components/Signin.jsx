@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../slices/profileSlice";
 import { setToken } from "../slices/authSlice";
+import { login } from "../services/operations/authAPI";
 
 export function Signin() {
   const navigate = useNavigate();
@@ -25,33 +26,10 @@ export function Signin() {
 
   const dispatch = useDispatch();
 
-  async function loginApi(){
+  async function loginApi(e){
 
-    const toastId = toast.loading('Waiting...');
-
-    try{
-
-      const {data} = await axios.post("http://localhost:4000/api/v1/login" , {email , password})
-      console.log(data)
-
-      dispatch(setUser(data.userInfo));
-      dispatch(setToken(data.token));
-
-      localStorage.setItem("token", JSON.stringify(data.token))
-      
-      navigate("/dashboard/profile")
-      // console.log(data.token)
-      
-      toast.remove(toastId)
-      toast.success(data.message)
-
-    }catch(error){
-
-      const {message} = error.response.data
-      toast.remove(toastId)
-      toast.error(message)
-
-    }
+    e.preventDefault()
+    dispatch(login(email, password, navigate))
     
   }
   

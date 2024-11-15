@@ -1,11 +1,14 @@
 import React from 'react';
 import { User } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../services/operations/authAPI';
 
 const UserMenu = ({ userName}) => {
+  const dispatch = useDispatch();
   return (
     <div className="flex flex-col gap-2 bg-gray-800 p-3 rounded-lg text-white w-48">
-      <Link to="/dashboard/profile" className="flex items-center gap-2 px-2 py-1 hover:bg-gray-700 rounded-md transition-colors">
+      <Link to="/dashboard/my-profile" className="flex items-center gap-2 px-2 py-1 hover:bg-gray-700 rounded-md transition-colors">
         <div className="bg-gray-700 p-1 rounded-full">
           <User size={20} className="text-gray-300" />
         </div>
@@ -13,7 +16,7 @@ const UserMenu = ({ userName}) => {
       </Link>
       
       <button 
-        onClick={() => console.log('Logout clicked')}
+        onClick={() => dispatch(logout())}
         className="flex items-center gap-2 px-2 py-1 hover:bg-gray-700 rounded-md transition-colors text-gray-300 hover:text-white"
       >
         <svg 

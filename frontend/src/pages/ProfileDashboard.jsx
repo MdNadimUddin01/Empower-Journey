@@ -1,62 +1,134 @@
-import React, { useState } from 'react';
-import { Home, UserCircle, BookOpen, ShoppingCart, Settings, LogOut, Menu, X } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import React, { useState } from "react";
+import {
+  Home,
+  UserCircle,
+  BookOpen,
+  ShoppingCart,
+  Settings,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { matchPath, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import {sidebarLinks} from "../../data/dashboard-links"
+import * as Icons from "react-icons/vsc"
+import ConfirmationModal from "../components/ConfirmationModal";
+import { logout } from "../services/operations/authAPI";
 
-const Sidebar = ({ isOpen, toggleSidebar }) => (
-  <>
-    {/* Mobile Menu Button */}
-    <button
-      onClick={toggleSidebar}
-      className="fixed top-20 left-4 z-50 md:hidden bg-gray-800 p-2 rounded-lg text-gray-300"
-    >
-      {isOpen ? <X size={24} /> : <Menu size={24} />}
-    </button>
+const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const { user, loading: profileLoading } = useSelector(
+    (state) => state.profile
+  );
+  const { loading: authLoading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [confirmationModal, setConfirmationModal] = useState(null);
 
-    {/* Mobile Overlay */}
-    {isOpen && (
-      <div 
-        className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+  if (profileLoading || authLoading) {
+    return <div className="mt-10">Loading...</div>;
+  }
+
+  const SettingIcon = Icons["VscSettingsGear"];
+
+  return (
+    <>
+      {/* Mobile Menu Button */}
+      <button
         onClick={toggleSidebar}
-      />
-    )}
+        className="fixed top-20 left-4 z-50 md:hidden bg-gray-800 p-2 rounded-lg text-gray-300"
+      >
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
 
-    {/* Sidebar */}
-    <div className={`
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`
       absolute left-0 top-0 h-screen bg-gray-800 text-gray-300 
       transition-all duration-300 z-40
-      ${isOpen ? 'translate-x-0 w-64' : '-translate-x-full md:translate-x-0'}
+      ${isOpen ? "translate-x-0 w-64" : "-translate-x-full md:translate-x-0"}
       md:w-64
-    `}>
-      <div className="p-4 pt-16 md:pt-4">
-        <div className="mb-8 px-2">
-          <h2 className="text-xl font-bold text-yellow-500">
-            Dashboard
-          </h2>
-        </div>
-        
-        <nav className="space-y-2">
-          <SidebarLink icon={<UserCircle className="w-5 h-5" />} text="My Profile" active />
-          <SidebarLink icon={<BookOpen className="w-5 h-5" />} text="Enrolled Courses" />
-          <SidebarLink icon={<ShoppingCart className="w-5 h-5" />} text="Cart" />
-          <div className="border-t border-gray-700 my-4"></div>
-          <SidebarLink icon={<Settings className="w-5 h-5" />} text="Settings" />
-          <SidebarLink icon={<LogOut className="w-5 h-5" />} text="Logout" />
-        </nav>
-      </div>
-    </div>
-  </>
-);
+    `}
+      >
+        <div className="p-4 pt-16 md:pt-4">
+          <div className="mb-8 px-2">
+            <h2 className="text-xl font-bold text-yellow-500">Dashboard</h2>
+          </div>
 
-const SidebarLink = ({ icon, text, active }) => (
-  <a 
-    href="#" 
+          <nav className="space-y-2">
+
+          {
+                    sidebarLinks.map((link) => {
+                        if(link.type && user?.accountType !== link.type) return null;
+                        const Icon = Icons[link.icon];
+                        return (
+                            <SidebarLink key={link.id}  link={link} icon={<Icon className="text-lg" />}/>
+                        )
+                    })}
+           
+          </nav>
+
+          <div className='flex flex-col'>
+                    <SidebarLink 
+                        link={{name:"Settings", path:"dashboard/settings"}}
+                        icon={<SettingIcon className="text-lg" />}
+                    />
+
+                    <button 
+                        onClick={ () => setConfirmationModal({
+                            text1: "Are You Sure ?",
+                            text2: "You will be logged out of your Account",
+                            btn1Text: "Logout",
+                            btn2Text:"Cancel",
+                            btn1Handler: () => dispatch(logout(navigate)),
+                            btn2Handler: () => setConfirmationModal(null),
+                        })}
+
+                        className='text-sm font-medium flex items-center space-x-2 p-3 rounded-lg transition-colors'
+                        >
+
+                        <div className='flex items-center gap-x-2'>
+                            <Icons.VscSignOut className='text-lg'/>
+                            <span>Logout</span>
+                        </div>
+
+                    </button>
+
+            </div>
+        </div>
+
+      </div>
+
+      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
+    </>
+  );
+};
+
+const SidebarLink = ({ icon, link }) => {
+
+  // console.log(link)
+    const location  = useLocation();
+
+    const matchRoute = (route) => {
+        return matchPath({path:route}, location.pathname);
+    }
+  return <NavLink
+    to={link.path}
     className={`flex items-center space-x-2 p-3 rounded-lg transition-colors
-      ${active ? 'bg-yellow-500 text-gray-900' : 'hover:bg-gray-700'}`}
+      ${matchRoute(link.path) ? "bg-yellow-400 text-gray-900" : "hover:bg-gray-700"}`}
   >
     {icon}
-    <span>{text}</span>
-  </a>
-);
+    <span>{link.name}</span>
+  </NavLink>
+};
 
 const ProfileDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -67,84 +139,17 @@ const ProfileDashboard = () => {
 
   return (
     <div className="min-h-screen relative bg-gray-900 text-gray-100">
-      <Sidebar 
-        isOpen={sidebarOpen} 
-        toggleSidebar={() => setSidebarOpen(!sidebarOpen)} 
+      <Sidebar
+        isOpen={sidebarOpen}
+        toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
       />
-      
-      <div className="transition-all duration-300 md:ml-64 pt-16 md:pt-6">
-        <div className="p-4 md:p-6">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">My Profile</h1>
-            
-            {/* Profile Card */}
-            <div className="bg-gray-800 rounded-lg p-4 md:p-6 mb-4 md:mb-6">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-xl font-bold overflow-hidden">
-                    <img src={user?.imageUrl} alt="profileImage" className="w-full h-full object-cover" />
-                  </div>
-                  <div>
-                    <h2 className="text-lg md:text-xl font-semibold">{user?.firstName} {" "} {user?.lastName}</h2>
-                    <p className="text-gray-400 text-sm md:text-base">{user?.email}</p>
-                  </div>
-                </div>
-                <button className="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors w-full md:w-auto">
-                  Edit
-                </button>
-              </div>
-            </div>
 
-            {/* About Section */}
-            <div className="bg-gray-800 rounded-lg p-4 md:p-6 mb-4 md:mb-6">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
-                <h3 className="text-lg md:text-xl font-semibold">About</h3>
-                <button className="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors w-full md:w-auto">
-                  Edit
-                </button>
-              </div>
-              <p className="text-gray-400">Write Something About Yourself</p>
-            </div>
-
-            {/* Personal Details */}
-            <div className="bg-gray-800 rounded-lg p-4 md:p-6">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-                <h3 className="text-lg md:text-xl font-semibold">Personal Details</h3>
-                <button className="bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-400 transition-colors w-full md:w-auto">
-                  Edit
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                <div>
-                  <label className="block text-gray-400 mb-1 md:mb-2 text-sm md:text-base">First Name</label>
-                  <p className="font-medium">{user?.firstName}</p>
-                </div>
-                <div>
-                  <label className="block text-gray-400 mb-1 md:mb-2 text-sm md:text-base">Last Name</label>
-                  <p className="font-medium">{user?.lastName}</p>
-                </div>
-                <div>
-                  <label className="block text-gray-400 mb-1 md:mb-2 text-sm md:text-base">Email</label>
-                  <p className="font-medium break-all">{user?.email}</p>
-                </div>
-                <div>
-                  <label className="block text-gray-400 mb-1 md:mb-2 text-sm md:text-base">Phone Number</label>
-                  <p className="font-medium text-gray-500">Add Contact Number</p>
-                </div>
-                <div>
-                  <label className="block text-gray-400 mb-1 md:mb-2 text-sm md:text-base">Gender</label>
-                  <p className="font-medium text-gray-500">Add Gender</p>
-                </div>
-                <div>
-                  <label className="block text-gray-400 mb-1 md:mb-2 text-sm md:text-base">Date of Birth</label>
-                  <p className="font-medium">January 1, 1970</p>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="mt-6 overflow-auto scrollbar-hide">
+        <div className="mx-auto w-11/12 max-w-[1000px]">
+          <Outlet />
         </div>
       </div>
+
     </div>
   );
 };

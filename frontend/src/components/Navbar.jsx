@@ -33,11 +33,12 @@ const Navbar = () => {
     try {
       // const result = await apiConnector("GET" , categories.CATEGORIES_API)
       const result = await axios.get(
-        "http://localhost:4000/api/v1/getAllTags",
+        "http://localhost:4000/api/v1/course/showAllCategories",
         {}
       );
+      console.log("result ",result)
       // console.log("Sublinks : ", result.data)
-      setSubLinks(result.data.allTags);
+      setSubLinks(result.data.data);
       // console.log(sublinks);
     } catch (error) {
       toast.error("Could fetch the category");
@@ -271,10 +272,10 @@ const Navbar = () => {
               {sublinks.map((item, index) => {
                 return (
                   <Link
-                    to={item.tagName} key={index}
+                    to={item.name} key={index}
                     className="flex items-center gap-2 px-2 py-1 hover:bg-gray-700 rounded-md "
                   >
-                    <span key={index} className="font-medium">{item.tagName}</span>
+                    <span key={index} className="font-medium">{item.name}</span>
                   </Link>
                 );
               })}

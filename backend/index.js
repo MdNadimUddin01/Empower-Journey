@@ -24,14 +24,23 @@ app.use(cookieParser())
 const {dataBaseConnection} = require("./config/database");
 dataBaseConnection();
 
-
+//file upload
+const fileUpload = require("express-fileupload");
+const { cloudnairyconnect } = require("./config/cloudinary");
+app.use(
+    fileUpload({
+      useTempFiles: true,
+      tempFileDir: "/tmp",
+    })
+  );
+  cloudnairyconnect();
 //auth route
 const authRoute = require("./routes/auth");
 app.use("/api/v1" , authRoute);
 
 // course route
 const courseRoute = require("./routes/course")
-app.use("/api/v1" , courseRoute)
+app.use("/api/v1/course" , courseRoute)
 
 // Faq Route
 const faqRoute = require("./routes/faq")
@@ -42,12 +51,12 @@ const ratingAndReviewRoute = require("./routes/ratingAndReview")
 app.use("/api/v1" , ratingAndReviewRoute)
 
 // section Route
-const sectionRoute = require("./routes/section");
-app.use("/api/v1" , sectionRoute)
+// const sectionRoute = require("./routes/section");
+// app.use("/api/v1" , sectionRoute)
 
-// subSection Route
-const subSectionRoute = require("./routes/subSection");
-app.use("/api/v1" , subSectionRoute)
+// // subSection Route
+// const subSectionRoute = require("./routes/subSection");
+// app.use("/api/v1" , subSectionRoute)
 
 // tag Route
 const tagRoute = require("./routes/tag")
