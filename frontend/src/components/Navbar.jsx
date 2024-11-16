@@ -36,7 +36,7 @@ const Navbar = () => {
         "http://localhost:4000/api/v1/course/showAllCategories",
         {}
       );
-      console.log("result ",result)
+      // console.log("result ",result)
       // console.log("Sublinks : ", result.data)
       setSubLinks(result.data.data);
       // console.log(sublinks);
@@ -272,7 +272,10 @@ const Navbar = () => {
               {sublinks.map((item, index) => {
                 return (
                   <Link
-                    to={item.name} key={index}
+                    to={`/catalog/${item.name
+                                    .split(" ")
+                                    .join("-")
+                                    .toLowerCase()}`} key={index}
                     className="flex items-center gap-2 px-2 py-1 hover:bg-gray-700 rounded-md "
                   >
                     <span key={index} className="font-medium">{item.name}</span>

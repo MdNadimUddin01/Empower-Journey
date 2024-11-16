@@ -61,7 +61,7 @@ const courses = [
   },
 ];
 
-const CourseCard = ({ course }) => {
+const CourseCard = ({ course , isPopular = true }) => {
   const {
     title,
     instructor,
@@ -71,9 +71,6 @@ const CourseCard = ({ course }) => {
     originalPrice,
     studentsEnrolled,
     duration,
-    isPopular,
-    level,
-    image,
   } = course;
 
   const navigate = useNavigate();
@@ -87,7 +84,7 @@ const CourseCard = ({ course }) => {
       {/* Course Image */}
       <div className="relative h-48 overflow-hidden">
         <img
-          src={image}
+          src={course?.thumbnail}
           alt={title}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
@@ -96,24 +93,24 @@ const CourseCard = ({ course }) => {
             BESTSELLER
           </div>
         )}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+        {/* <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
           <div className="flex items-center gap-2">
             <span className="rounded-full bg-black/30 px-3 py-1 text-xs font-medium text-white">
               {level}
             </span>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Course Content */}
       <div className="flex flex-1 flex-col p-5">
         {/* Title */}
         <h3 className="mb-2 line-clamp-2 min-h-[48px] font-semibold text-white group-hover:text-blue-600">
-          {title}
+        {course?.courseName}
         </h3>
 
         {/* Instructor */}
-        <p className="mb-2 text-sm text-white">{instructor}</p>
+        <p className="mb-2 text-sm text-white">{course?.instructor?.firstName} {course?.instructor?.lastName}</p>
 
         {/* Rating */}
         <div className="mb-2 flex items-center gap-1">
@@ -152,7 +149,7 @@ const CourseCard = ({ course }) => {
           <div className="flex items-center gap-2">
             <span className="text-xl font-bold text-white">₹{price}</span>
             <span className="text-sm text-white line-through">
-              ₹{originalPrice}
+              ₹{course?.price}
             </span>
           </div>
         </div>

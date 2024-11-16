@@ -33,6 +33,7 @@ exports.showAllCategories = async (req, res) => {
 	try {
         console.log("INSIDE SHOW ALL CATEGORIES");
 		const allCategorys = await Category.find({});
+
 		res.status(200).json({
 			success: true,
 			data: allCategorys,
@@ -45,6 +46,24 @@ exports.showAllCategories = async (req, res) => {
 	}
 };
 
+exports.deleteCategory = async(req , res , next) => {
+
+  try{
+
+      const {categoryId} = req.body;
+
+      await Category.findByIdAndDelete(categoryId);
+
+      return res.status(200).json({
+          success:true,
+          message:"Category Deleted successfully"
+      })
+
+  }catch(error){
+
+      return next(error)
+  }
+}
 //categoryPageDetails 
 
 exports.categoryPageDetails = async (req, res) => {
@@ -59,6 +78,8 @@ exports.categoryPageDetails = async (req, res) => {
           populate: "ratingAndReviews",
         })
         .exec()
+        
+        console.table(selectedCategory);
   
       //console.log("SELECTED COURSE", selectedCategory)
       // Handle the case when the category is not found

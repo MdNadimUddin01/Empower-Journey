@@ -21,6 +21,7 @@ const {
   showAllCategories,
   createCategory,
   categoryPageDetails,
+  deleteCategory
 } = require("../controller/Category")
 
 // Sections Controllers Import
@@ -86,6 +87,7 @@ router.delete("/deleteCourse", deleteCourse)
 router.post("/createCategory", auth, isAdmin, createCategory)
 router.get("/showAllCategories", showAllCategories)
 router.post("/getCategoryPageDetails", categoryPageDetails)
+router.delete("/deleteCategory", auth, isAdmin, deleteCategory)
 
 // ********************************************************************************************************
 //                                      Rating and Review

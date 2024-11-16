@@ -24,6 +24,7 @@ import { ACCOUNT_TYPE } from "../utils/constants";
 import AddCourse from "./components/Dashboard/AddCourse";
 import MyCourses from "./components/Dashboard/MyCourses";
 import EditCourse from "./components/Dashboard/EditCourse.jsx/EditCourse";
+import Catalog from "./pages/Catalog";
 
 function App() {
   const { user } = useSelector((state) => state.profile);
@@ -44,6 +45,8 @@ function App() {
           />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="catalog/:catalogName" element={<Catalog/>} />
+
 
             <Route
               path="about"
