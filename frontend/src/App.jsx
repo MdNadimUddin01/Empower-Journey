@@ -16,7 +16,7 @@ import ProfileDashboard from "./pages/ProfileDashboard";
 import CoursePage from "./components/Course/CoursePage";
 import CoursePageAccordingToTag from "./components/Course/CoursePageAccordingToTag";
 import OTPInput from "./components/OtpInput";
-import MyProfile from "./components/Dashboard/MyProfile";
+import MyProfile from "./components/Dashboard/MyProfile.jsx";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 import OpenRoute from "./components/Auth/OpenRoute";
 import Error from "./pages/Error";
