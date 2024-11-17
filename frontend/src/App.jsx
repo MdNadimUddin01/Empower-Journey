@@ -15,9 +15,9 @@ import Contact from "./pages/Contact.jsx";
 import OTPInput from "./components/OtpInput.jsx";
 import PrivateRoute from "./components/Auth/PrivateRoute.jsx";
 import ProfileDashboard from "./pages/ProfileDashboard.jsx";
-// import MyProfile from "./components/Dashboard/MyProfile.jsx";
-// import EnrolledCourses from "./components/Dashboard/EnrolledCourses.jsx";
-import AddCourse from "./components/Dashboard/AddCourse";
+import MyProfile from "./components/Dashboard/MyProfile.jsx";
+import EnrolledCourses from "./components/Dashboard/EnrolledCourses.jsx";
+import AddCourse from "./components/Dashboard/AddCourse/index.jsx";
 import MyCourses from "./components/Dashboard/MyCourses.jsx";
 import EditCourse from "./components/Dashboard/EditCourse.jsx/EditCourse.jsx";
 import ViewCourse from "./pages/ViewCourse.jsx";
@@ -92,16 +92,16 @@ function App() {
               }
             >
               {/* Route for all users */}
-              {/* <Route path="dashboard/my-profile" element={<MyProfile />} /> */}
+              <Route path="dashboard/my-profile" element={<MyProfile />} />
 
               {/* Route only for Students */}
               {user?.accountType === ACCOUNT_TYPE.STUDENT && (
                 <>
                   {/* <Route path="dashboard/cart" element={<Cart />} /> */}
-{/*                   <Route
+                  <Route
                     path="dashboard/enrolled-courses"
                     element={<EnrolledCourses />}
-                  /> */}
+                  />
                 </>
               )}
 
