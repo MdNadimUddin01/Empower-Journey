@@ -4,30 +4,47 @@ import "./App.css";
 import { Signup } from "./components/Signup";
 import { Signin } from "./components/Signin";
 import { Toaster } from "react-hot-toast";
+
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import { Provider, useSelector } from "react-redux";
-
-import Footer from "./components/home/Footer";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import ProfileDashboard from "./pages/ProfileDashboard";
-import CoursePage from "./components/Course/CoursePage";
-import CoursePageAccordingToTag from "./components/Course/CoursePageAccordingToTag";
-import OTPInput from "./components/OtpInput";
-import PrivateRoute from "./components/Auth/PrivateRoute";
-import OpenRoute from "./components/Auth/OpenRoute";
-import Error from "./pages/Error";
-import { ACCOUNT_TYPE } from "../utils/constants";
-import AddCourse from "./components/Dashboard/AddCourse/index";
-import MyCourses from "./components/Dashboard/MyCourses";
-import EditCourse from "./components/Dashboard/EditCourse.jsx/EditCourse";
 import Catalog from "./pages/Catalog";
 import CourseDetails from "./pages/CourseDetails";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import OTPInput from "./components/OtpInput";
+import PrivateRoute from "./components/Auth/PrivateRoute";
+import ProfileDashboard from "./pages/ProfileDashboard";
+import MyProfile from "./components/Dashboard/MyProfile";
 import EnrolledCourses from "./components/Dashboard/EnrolledCourses";
+import AddCourse from "./components/Dashboard/AddCourse";
+import MyCourses from "./components/Dashboard/MyCourses";
+import EditCourse from "./components/Dashboard/EditCourse.jsx/EditCourse";
 import ViewCourse from "./pages/ViewCourse";
 import VideoDetails from "./components/viewCourse/VideoDetails";
-import MyProfile from "./components/Dashboard/MyProfile";
+import Error from "./pages/Error";
+import Footer from "./components/home/Footer";
+import { ACCOUNT_TYPE } from "../utils/constants";
+
+// import Footer from "./components/home/Footer";
+// import About from "./pages/About";
+// import Contact from "./pages/Contact";
+// import ProfileDashboard from "./pages/ProfileDashboard";
+// import CoursePage from "./components/Course/CoursePage";
+// import CoursePageAccordingToTag from "./components/Course/CoursePageAccordingToTag";
+// import OTPInput from "./components/OtpInput";
+// import PrivateRoute from "./components/Auth/PrivateRoute";
+// import OpenRoute from "./components/Auth/OpenRoute";
+// import Error from "./pages/Error";
+// import AddCourse from "./components/Dashboard/AddCourse/index";
+// import MyCourses from "./components/Dashboard/MyCourses";
+// import EditCourse from "./components/Dashboard/EditCourse.jsx/EditCourse";
+// import Catalog from "./pages/Catalog";
+// import CourseDetails from "./pages/CourseDetails";
+// import EnrolledCourses from "./components/Dashboard/EnrolledCourses";
+// import ViewCourse from "./pages/ViewCourse";
+// import VideoDetails from "./components/viewCourse/VideoDetails";
+// import MyProfile from "./components/Dashboard/MyProfile";
 
 function App() {
   const { user } = useSelector((state) => state.profile);
@@ -57,12 +74,12 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
 
-            <Route path="/courses/python/current" element={<CoursePage />} />
+            {/* <Route path="/courses/python/current" element={<CoursePage />} /> */}
 
-            <Route
+            {/* <Route
               path="/courses/python"
               element={<CoursePageAccordingToTag />}
-            />
+            /> */}
 
             <Route path="/otp" element={<OTPInput />} />
 
