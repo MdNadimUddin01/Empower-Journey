@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 
 import { getUserEnrolledCourses } from "../../services/operations/profileAPI"
 
-export default function EnrolledCourses() {
+export const EnrolledCourses = () => {
   const { token } = useSelector((state) => state.auth)
   const navigate = useNavigate()
 
