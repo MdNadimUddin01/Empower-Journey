@@ -259,6 +259,7 @@ const CoursePage = () => {
             </button>
           </div>
         </div>
+        
       </div>
 
       {showScrollTop && (

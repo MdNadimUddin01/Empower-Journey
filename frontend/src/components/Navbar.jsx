@@ -261,6 +261,7 @@ const Navbar = () => {
           >
             <AiOutlineInfoCircle />
             <p className="font-bold text-lg hover:brightness-50">About</p>
+            
           </NavLink>
 
           <div className="flex cursor-pointer group gap-2 items-center relative">

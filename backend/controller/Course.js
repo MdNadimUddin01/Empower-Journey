@@ -1,4 +1,4 @@
-const CourseProgress = require("../model/CourseProgress")
+// const CourseProgress = require("../model/CourseProgress")
 const { convertSecondsToDuration } = require("../utils/secToDuration")
 const { User } = require("../model/User")
 const { uploadImageToCloudinary } = require("../utils/imageUploader")
@@ -6,6 +6,7 @@ const { Section } = require("../model/Section")
 const Category = require("../model/Category")
 const Course = require("../model/Course")
 const SubSection = require("../model/SubSection")
+const { CourseProgress } = require("../model/CourseProgress")
 // uploadImageToCloudinary
 // SubSection
 // Course
@@ -255,9 +256,6 @@ exports.getCourseDetails = async (req, res) => {
     })
       .populate({
         path: "instructor",
-        populate: {
-          path: "additionalDetails",
-        },
       })
       .populate("category")
       .populate("ratingAndReviews")
@@ -312,14 +310,12 @@ exports.getFullCourseDetails = async (req, res) => {
   try {
     const { courseId } = req.body
     const userId = req.user.id
+    // console.table([courseId , userId])
     const courseDetails = await Course.findOne({
       _id: courseId,
     })
       .populate({
         path: "instructor",
-        populate: {
-          path: "additionalDetails",
-        },
       })
       .populate("category")
       .populate("ratingAndReviews")
@@ -330,6 +326,7 @@ exports.getFullCourseDetails = async (req, res) => {
         },
       })
       .exec()
+      // console.log(courseDetails);
 
     let courseProgressCount = await CourseProgress.findOne({
       courseID: courseId,
@@ -373,6 +370,7 @@ exports.getFullCourseDetails = async (req, res) => {
       },
     })
   } catch (error) {
+    console.log("ERROR : " , error.message)
     return res.status(500).json({
       success: false,
       message: error.message,
