@@ -7,8 +7,7 @@ import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import { Provider, useSelector } from "react-redux";
-import rootReducer from "./reducers";
-import { configureStore } from "@reduxjs/toolkit";
+
 import Footer from "./components/home/Footer";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -16,7 +15,6 @@ import ProfileDashboard from "./pages/ProfileDashboard";
 import CoursePage from "./components/Course/CoursePage";
 import CoursePageAccordingToTag from "./components/Course/CoursePageAccordingToTag";
 import OTPInput from "./components/OtpInput";
-import MyProfile from "./components/Dashboard/MyProfile";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 import OpenRoute from "./components/Auth/OpenRoute";
 import Error from "./pages/Error";
@@ -29,6 +27,7 @@ import CourseDetails from "./pages/CourseDetails";
 import EnrolledCourses from "./components/Dashboard/EnrolledCourses";
 import ViewCourse from "./pages/ViewCourse";
 import VideoDetails from "./components/viewCourse/VideoDetails";
+import MyProfile from "./components/Dashboard/MyProfile";
 
 function App() {
   const { user } = useSelector((state) => state.profile);
