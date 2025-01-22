@@ -231,38 +231,3 @@ exports.changePassword = async(req , res , next) => {
 
 }
 
-
-// exports.resetPasswordOTP = async(req , res , next) =>{
-
-//   try{
-
-//     const {email , otp} = req.body;
-
-//     const currentOtp = await OTP.findOne({email : email}).sort({createdAt:-1});
-
-//     if(currentOtp != otp){
-
-//       return next(errorHandle("400" , "Invalid Otp"));
-
-//     }
-
-//     next();
-    
-
-//   }catch(error){
-//     return next(error)
-//   }
-
-// }
-
-// exports.resetPassword = async(req , res ,  next) => {
-
-//   try{
-
-//     const {newPassword}
-
-//   }catch(error){
-
-//   }
-
-// }

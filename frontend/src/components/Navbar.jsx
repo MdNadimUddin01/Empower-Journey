@@ -237,7 +237,7 @@ const Navbar = () => {
       {/* Courses , About , Home */}
       <div className="hidden md:flex items-center gap-14">
         <div className="flex items-center gap-6 text-lg font-medium">
-          <button
+          {/* <button
             onClick={handleToggleMode}
             className={`p-2 rounded-full transition-all duration-300 ${
               dark === "light"
@@ -246,7 +246,7 @@ const Navbar = () => {
             }`}
           >
             {dark === "light" ? <WiDaySunny /> : <MdDarkMode />}
-          </button>
+          </button> */}
           <NavLink
             to="/home"
             className="flex justify-center items-center gap-2"
