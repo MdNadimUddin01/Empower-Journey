@@ -89,7 +89,8 @@ exports.login = async(req , res , next) => {
 
   try{
 
-    const {email ,password} = req.body;
+    const { email, password } = req.body;
+    console.log({email , password})
     // console.table([email , password])
 
     if(!email || !password){

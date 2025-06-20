@@ -20,11 +20,12 @@ const mongoose = require("mongoose");
 
 require("dotenv").config();
 
-const dataBaseConnection = async() => {
-
+const dataBaseConnection = async () => {
+    console.log(process.env.MONGODB_URL)
     mongoose.connect(process.env.MONGODB_URL)
     .then(() => console.log("DataBase Connection SuccessFull"))
-    .catch((error) => {
+        .catch((error) => {
+        console.log("error : " , error)
         console.log(error.message)
         process.exit(1);
     });
