@@ -121,7 +121,7 @@ export function Signup() {
 
     try{
 
-      const response = await axios.post("http://localhost:4000/api/v1/signup", {firstName , lastName , email , password , confirmPassword , otp:otpValue , accountType});
+      const response = await axios.post(import.meta.env.VITE_BASE_URL + "/signup", {firstName , lastName , email , password , confirmPassword , otp:otpValue , accountType});
       toast.remove(toastId)
       toast.success(response?.data?.message)
       setSendOtp(true)
@@ -156,7 +156,7 @@ export function Signup() {
 
       setSignUpError("");
 
-      const response = await axios.post("http://localhost:4000/api/v1/sendOtp" , {email});
+      const response = await axios.post(import.meta.env.VITE_BASE_URL + "/sendOtp" , {email});
       console.log(response);
 
       toast.remove(toastId)
@@ -204,7 +204,7 @@ export function Signup() {
 
       setSignUpError("");
 
-      const response = await axios.post("http://localhost:4000/api/v1/sendOtp" , {email});
+      const response = await axios.post(import.meta.env.VITE_BASE_URL + "/sendOtp" , {email});
       console.log(response);
 
       toast.remove(toastId)
@@ -223,7 +223,7 @@ export function Signup() {
   }
 
   return (
-    <div className="relative h-screen font-sans">
+    <div className="relative h-screen font-sans text-black">
       {/* Background container */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"

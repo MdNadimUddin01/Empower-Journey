@@ -2,7 +2,9 @@
 
 // import dotenv from 'react-dotenv';
 
-const BASE_URL = "http://localhost:4000/api/v1";
+
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 // console.log("hello " ,dotenv.REACT_APP_BASE_URL);
 

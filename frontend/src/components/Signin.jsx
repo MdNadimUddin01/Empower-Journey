@@ -29,13 +29,13 @@ export function Signin() {
   async function loginApi(e){
 
     e.preventDefault()
-    dispatch(login(email, password, navigate))
+    dispatch(login(email, password, navigate));
     
   }
   
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 relative h-screen font-sans">
+    <div className="min-h-screen text-black bg-gray-50 flex items-center justify-center p-4 relative h-screen font-sans">
       {/* Background container */}
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat"
            style={{ backgroundImage: `url(${bg})` }}>

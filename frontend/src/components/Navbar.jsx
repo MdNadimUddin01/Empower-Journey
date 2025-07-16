@@ -33,7 +33,7 @@ const Navbar = () => {
     try {
       // const result = await apiConnector("GET" , categories.CATEGORIES_API)
       const result = await axios.get(
-        "http://localhost:4000/api/v1/course/showAllCategories",
+        import.meta.env.VITE_BASE_URL + "/course/showAllCategories",
         {}
       );
       // console.log("result ",result)

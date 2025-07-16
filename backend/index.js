@@ -16,7 +16,7 @@ app.listen(PORT , () => {
 
 app.use(express.json());
 app.use(cors());
-app.use(cookieParser())
+app.use(cookieParser());
 
 
 //database conection
@@ -27,6 +27,7 @@ dataBaseConnection();
 //file upload
 const fileUpload = require("express-fileupload");
 const { cloudnairyconnect } = require("./config/cloudinary");
+
 app.use(
     fileUpload({
       useTempFiles: true,
